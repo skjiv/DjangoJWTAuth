@@ -99,3 +99,15 @@ class AuthLoginUserTest(BaseViewTest):
         # status code should be 401 UNAUTHORIZED
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_ldap_user_with_valid_credentials(self):
+        # test login with valid credentials
+        response = self.login_a_user("riemann", "password")
+        # assert token key exists
+        self.assertIn("token", response.data)
+        # status code should be 200 OK
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # test login with invalid credentials
+        response = self.login_a_user("gauss", "pass")
+        # status code should be 401 UNAUTHORIZED
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
